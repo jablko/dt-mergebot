@@ -417,7 +417,8 @@ configSuspicious["tsconfig.json"] = makeJsonCheckerFromCore(
             forceConsistentCasingInFileNames: true
         }
     },
-    [ "/files", "/compilerOptions/paths", "/compilerOptions/baseUrl", "/compilerOptions/typeRoots" ]
+    [ "/files", "/compilerOptions/paths", "/compilerOptions/baseUrl", "/compilerOptions/typeRoots" ],
+    urls.tsconfigJson
 );
 
 // helper for json file testers: allow either a given "requiredForm", or any edits that get closer

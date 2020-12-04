@@ -4,5 +4,5 @@ export const testingEditedPackages = `${baseURL}#testing`;
 export const testingNewPackages = `${baseURL}#testing`;
 export const definitionOwners = `${baseURL}#definition-owners`;
 export const workflow = `${baseURL}#make-a-pull-request`;
-export const readmePackageJason = `${baseURL}#make-a-pull-request`;
+export const tsconfigJson = `${baseURL}#tsconfigjson`;
 export const packageJson = `${baseURL}#packagejson`;
