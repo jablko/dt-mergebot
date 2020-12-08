@@ -38,7 +38,7 @@ const args = yargs(process.argv.slice(2))
     .argv;
 
 const shouldRunOn: (n: number) => boolean =
-    args._.length === 0 ? _n => true : n => args._.some(p => p(n));
+    args._.length === 0 ? () => true : n => args._.some(p => p(n));
 
 const xform = (x: unknown, xlate: (s: string) => string): unknown => {
     if (typeof x === "string") return xlate(x);

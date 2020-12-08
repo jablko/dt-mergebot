@@ -49,7 +49,7 @@ fs.readFile(path.join(__dirname, '../clean-columns-query.graphql'), { encoding: 
             for (const card of column.node.cards.edges.map(c => c.node)) {
                 if (card.content.state !== 'OPEN') {
                     cleanCount++;
-                    request.delete(`https://api.github.com/projects/columns/cards/${card.databaseId}`, { headers }, (err, _unused) => {
+                    request.delete(`https://api.github.com/projects/columns/cards/${card.databaseId}`, { headers }, err => {
                         if (err) throw err;
                     });
                 }

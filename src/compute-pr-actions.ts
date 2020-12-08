@@ -232,7 +232,7 @@ function extendPrInfo(info: PrInfo): ExtendedPrInfo {
 }
 
 export function process(prInfo: PrInfo | BotEnsureRemovedFromProject | BotNoPackages | BotError,
-                        extendedCallback: (info: ExtendedPrInfo) => void = _i => {}): Actions {
+                        extendedCallback: (info: ExtendedPrInfo) => void = () => {}): Actions {
     if (prInfo.type === "remove") {
         if (prInfo.isDraft) {
             return {
