@@ -37,7 +37,7 @@ r('https://api.github.com/repos/DefinitelyTyped/DefinitelyTyped/projects', { hea
             console.log(`== Project ${name} (${id}) ==`);
             console.log("{");
             for (const c of cols) {
-                console.log(`  \"${c.name}\": ${c.id},`);
+                console.log(`  "${c.name}": ${c.id},`);
             }
             console.log("}");
 
