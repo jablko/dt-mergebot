@@ -7,6 +7,14 @@
 // GraphQL query operation: GetProjectBoardCards
 // ====================================================
 
+export interface GetProjectBoardCards_repository_project_columns_nodes_cards_nodes_content {
+  __typename: "Issue" | "PullRequest";
+  /**
+   * `true` if the object is closed (definition of closed may depend on type)
+   */
+  closed: boolean;
+}
+
 export interface GetProjectBoardCards_repository_project_columns_nodes_cards_nodes {
   __typename: "ProjectCard";
   id: string;
@@ -14,6 +22,10 @@ export interface GetProjectBoardCards_repository_project_columns_nodes_cards_nod
    * Identifies the date and time when the object was last updated.
    */
   updatedAt: any;
+  /**
+   * The card content item
+   */
+  content: GetProjectBoardCards_repository_project_columns_nodes_cards_nodes_content | null;
 }
 
 export interface GetProjectBoardCards_repository_project_columns_nodes_cards {

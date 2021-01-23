@@ -3,7 +3,7 @@
 import * as schema from "@octokit/graphql-schema/schema";
 import * as yargs from "yargs";
 import { process as computeActions } from "./compute-pr-actions";
-import { getAllOpenPRsAndCardIDs } from "./queries/all-open-prs-query";
+import { getAllOpenPRs } from "./queries/all-open-prs-query";
 import { queryPRInfo, deriveStateForPR } from "./pr-info";
 import { executePrActions } from "./execute-pr-actions";
 import { getProjectBoardCards } from "./queries/projectboard-cards";
@@ -62,7 +62,7 @@ const show = (name: string, value: unknown) => {
 
 const start = async function () {
     console.log(`Getting open PRs.`);
-    const { prNumbers: prs, cardIDs } = await getAllOpenPRsAndCardIDs();
+    const prs = await getAllOpenPRs();
     //
     for (const pr of prs) {
         if (!shouldRunOn(pr)) continue;
@@ -110,7 +110,7 @@ const start = async function () {
             throw new Error(`Could not find the 'Recently Merged' column in ${columns.map(n => n.name)}`);
         }
         const { cards, totalCount } = recentlyMerged;
-        const afterFirst50 = cards.sort((l, r) => l.updatedAt.localeCompare(r.updatedAt)).slice(50);
+        const afterFirst50 = cards.sort((l, r) => Date.parse(l.updatedAt) - Date.parse(r.updatedAt)).slice(50);
         if (afterFirst50.length > 0) {
             console.log(`Cutting "Recently Merged" projects to the last 50`);
             if (cards.length < totalCount) {
@@ -122,13 +122,13 @@ const start = async function () {
     // Handle other columns
     for (const column of columns) {
         if (column.name === "Recently Merged") continue;
-        const ids = column.cards.map(c => c.id).filter(c => !cardIDs.includes(c));
-        if (ids.length === 0) continue;
+        const closed = column.cards.filter(card => card.closed);
+        if (closed.length === 0) continue;
         console.log(`Cleaning up closed PRs in "${column.name}"`);
         // don't actually do the deletions, until I follow this and make sure that it's working fine
-        for (const id of ids) {
-            const info = await runQueryToGetPRForCardId(id);
-            await deleteObject(id, info === undefined ? "???"
+        for (const card of closed) {
+            const info = await runQueryToGetPRForCardId(card.id);
+            await deleteObject(card.id, info === undefined ? "???"
                                : info.state === "CLOSED" ? undefined
                                : "#" + info.number);
         }
