@@ -229,7 +229,9 @@ export function process(prInfo: BotResult,
     if (prInfo.type === "remove") {
         return {
             ...createEmptyActions(),
-            projectColumn: prInfo.isDraft ? "Needs Author Action" : "*REMOVE*",
+            projectColumn: prInfo.state === "CLOSED" ? "*REMOVE*"
+                : prInfo.state === "MERGED" ? "Recently Merged"
+                : "Needs Author Action",
         };
     }
 
